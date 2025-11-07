@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import emailjs from "emailjs-com";
 
 // --- Single-file, drop-in portfolio page ---
@@ -8,22 +8,32 @@ import emailjs from "emailjs-com";
 // 3) Tailwind CSS recommended for styling. (Works well with Tailwind v4.)
 
 const PROFILE = {
-  name: "Your Name",
-  role: "Full‑Stack Developer",
+  name: "Aaroh Bhardwaj",
+  role: "Full Stack Developer",
+  tagline: "Building reliable digital experiences with clean, scalable code.",
   blurb:
-    "I build fast, clean, and reliable web apps. Focused on DX, performance, and shipping value.",
-  location: "City, Country",
+    "Full Stack Developer specializing in the JavaScript ecosystem. I engineer scalable, end-to-end solutions using modern stacks like Next.js, React, Node.js, and MongoDB. I focus on building performant, full-cycle applications—from architecting robust back-end APIs to crafting dynamic, responsive front-end interfaces.",
+  location: "Bengaluru, India",
   availability: "Open to freelance & full‑time",
-  email: "you@example.com",
+  email: "aarohb.1507@gmail.com",
   resumeUrl: "#", // paste Google Drive/Notion/CV link here
   socials: [
-    { label: "GitHub", href: "https://github.com/yourhandle" },
-    { label: "LinkedIn", href: "https://linkedin.com/in/yourhandle" },
-    { label: "X/Twitter", href: "https://x.com/yourhandle" },
+    { label: "GitHub", href: "https://github.com/aarohb1507" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/aaroh-bhardwaj" },
   ],
+  skills: [
+    "JavaScript", "TypeScript", "C++", "Java", "React", "Next.js", 
+    "Node.js", "Express", "NestJS", "Redux", "MongoDB", "Tailwind CSS", 
+    "Docker", "Cloudinary", "Postman", "Figma", "Git"
+  ],
+  education: {
+    degree: "Bachelor of Engineering in Computer Science",
+    institution: "Acharya Institute of Technology, Bengaluru",
+    year: "Expected 2026"
+  }
 };
 
-// You asked for “projects + 3 generic tabs”. Rename labels freely.
+// You asked for "projects + 3 generic tabs". Rename labels freely.
 const TABS = [
   { key: "projects", label: "Projects" },
   { key: "about", label: "About" },
@@ -34,35 +44,26 @@ const TABS = [
 // Edit your projects here.
 const PROJECTS = [
   {
-    title: "SaaS Billing Dashboard",
+    title: "eLibrary REST API",
     description:
-      "A Stripe‑powered dashboard with MRR, churn, cohort analysis, and webhook‑driven ledger.",
-    stack: ["React", "Node", "Postgres", "Stripe"],
+      "RESTful API for managing books, users, and admins with JWT auth, role-based access, Cloudinary integration, and analytics.",
+    stack: ["Node.js", "Express", "MongoDB", "Cloudinary"],
+    image: "/rest-api.png",
     links: [
-      { label: "Live", href: "#" },
-      { label: "GitHub", href: "#" },
+      { label: "GitHub", href: "https://github.com/aarohb1507/e-library-api" },
     ],
   },
   {
-    title: "Realtime Chat",
-    description:
-      "WebSocket chat with presence, optimistic UI, and end‑to‑end encryption demo.",
-    stack: ["React", "Express", "Redis", "WS"],
-    links: [
-      { label: "Live", href: "#" },
-      { label: "GitHub", href: "#" },
-    ],
-  },
-  {
-    title: "Image Optimizer",
-    description:
-      "On‑the‑fly image CDN with smart cropping, AVIF/WEBP conversion, and cache layering.",
-    stack: ["React", "Cloudflare", "KV", "Workers"],
-    links: [
-      { label: "Live", href: "#" },
-      { label: "GitHub", href: "#" },
-    ],
-  },
+  title: "Employee Task Management System",
+  description:
+    "Task dashboards, progress tracking, role-based access, and responsive UI using Tailwind CSS.",
+  stack: ["React", "Redux", "Node.js", "Express", "MongoDB"],
+  image: "/ems.png", // ✅ added this line
+  links: [
+    { label: "GitHub", href: "https://github.com/aarohb1507/task-management-system" },
+  ],
+},
+
 ];
 
 function Chip({ children }) {
@@ -105,6 +106,17 @@ export default function Portfolio() {
 
   const activeIndex = useMemo(() => TABS.findIndex((t) => t.key === active), [active]);
 
+  useEffect(() => {
+    document.title = "Aaroh Bhardwaj | Full Stack Developer";
+    
+    // Update favicon
+    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/png';
+    link.rel = 'icon';
+    link.href = '/logo.png';
+    document.head.appendChild(link);
+  }, []);
+
   const sendEmail = (e) => {
     e.preventDefault();
     emailjs
@@ -129,10 +141,16 @@ export default function Portfolio() {
       <header className="sticky top-0 z-10 border-b bg-white/70 backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4">
           <div className="flex items-center gap-4">
-            <div className="h-12 w-12 shrink-0 rounded-2xl bg-gradient-to-tr from-gray-900 to-gray-600" />
+            <img
+            src="/name-logo.jpg"
+            alt="Aaroh Bhardwaj Logo"
+            className="h-12 w-12 shrink-0 rounded-2xl object-cover"
+            />
+
             <div>
               <h1 className="text-xl font-bold leading-tight">{PROFILE.name}</h1>
               <p className="text-sm text-gray-600">{PROFILE.role}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{PROFILE.tagline}</p>
             </div>
           </div>
           <nav className="hidden md:block">
@@ -141,6 +159,8 @@ export default function Portfolio() {
                 <a
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-lg border px-3 py-1.5 text-sm font-medium hover:bg-black hover:text-white"
                 >
                   {s.label}
@@ -167,13 +187,21 @@ export default function Portfolio() {
           <section className="space-y-6">
             <SectionCard>
               <h2 className="mb-2 text-2xl font-bold">Featured Projects</h2>
-              <p className="text-gray-600">A few things I’ve shipped recently.</p>
+              <p className="text-gray-600">A few things I've shipped recently.</p>
             </SectionCard>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {PROJECTS.map((p, idx) => (
                 <SectionCard key={idx} className="flex flex-col gap-4">
-                  <div className="h-36 w-full rounded-xl bg-gradient-to-tr from-gray-200 to-gray-100" />
+                  <div className="h-36 w-full rounded-xl bg-gradient-to-tr from-gray-200 to-gray-100 overflow-hidden">
+                    {p.image && (
+                      <img 
+                        src={p.image} 
+                        alt={p.title} 
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-semibold">{p.title}</h3>
                     <p className="text-sm text-gray-600">{p.description}</p>
@@ -188,6 +216,8 @@ export default function Portfolio() {
                       <a
                         key={l.label}
                         href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="rounded-lg border px-3 py-1.5 text-sm font-semibold hover:bg-black hover:text-white"
                       >
                         {l.label}
@@ -220,9 +250,27 @@ export default function Portfolio() {
               </SectionCard>
               <SectionCard>
                 <div className="text-sm text-gray-600">Primary Stack</div>
-                <div className="text-lg font-semibold">React • Node • Postgres</div>
+                <div className="text-lg font-semibold">React • Node.js • MongoDB</div>
               </SectionCard>
             </div>
+
+            <SectionCard>
+              <h3 className="mb-3 text-xl font-bold">Technical Skills</h3>
+              <div className="flex flex-wrap gap-2">
+                {PROFILE.skills.map((skill) => (
+                  <Chip key={skill}>{skill}</Chip>
+                ))}
+              </div>
+            </SectionCard>
+
+            <SectionCard>
+              <h3 className="mb-2 text-xl font-bold">Education</h3>
+              <div className="space-y-1">
+                <div className="font-semibold">{PROFILE.education.degree}</div>
+                <div className="text-gray-700">{PROFILE.education.institution}</div>
+                <div className="text-sm text-gray-600">{PROFILE.education.year}</div>
+              </div>
+            </SectionCard>
           </section>
         )}
 
@@ -230,38 +278,23 @@ export default function Portfolio() {
           <section className="space-y-6">
             <SectionCard>
               <h2 className="mb-2 text-2xl font-bold">Experience</h2>
-              <p className="text-gray-600">Replace with your timeline.</p>
+              <p className="text-gray-600">My professional journey.</p>
             </SectionCard>
 
             <div className="space-y-4">
-              {[{
-                role: "Senior Developer — Acme Corp",
-                period: "2023 — Present",
-                bullets: [
-                  "Led migration to React Server Components, improving TTFB by 32%.",
-                  "Built internal component library adopted by 5 teams.",
-                ],
-              },
-              {
-                role: "Full‑Stack — StartUp XYZ",
-                period: "2021 — 2023",
-                bullets: [
-                  "Shipped subscription analytics with Stripe + Postgres window functions.",
-                  "Reduced infra costs by 45% with better caching and query plans.",
-                ],
-              }].map((item, i) => (
-                <SectionCard key={i}>
-                  <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                    <h3 className="text-lg font-semibold">{item.role}</h3>
-                    <div className="text-sm text-gray-600">{item.period}</div>
-                  </div>
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
-                    {item.bullets.map((b, bi) => (
-                      <li key={bi}>{b}</li>
-                    ))}
-                  </ul>
-                </SectionCard>
-              ))}
+              <SectionCard>
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                  <h3 className="text-lg font-semibold">SDE Intern — Phyniks Dreamlabs LLP</h3>
+                  <div className="text-sm text-gray-600">Aug 2025 — Present</div>
+                </div>
+                <p className="mt-2 text-sm text-gray-600 italic">
+                  Contributing to Rackets & Returns Admin Panel, a full-stack SaaS dashboard for managing members, subscriptions, and analytics.
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-gray-700">
+                  <li>Built backend APIs using Node.js, Express, and MongoDB with MVC structure and modular routing.</li>
+                  <li>Developed responsive frontend with Next.js 14, React hooks, and Tailwind CSS (SSR for SEO).</li>
+                </ul>
+              </SectionCard>
             </div>
           </section>
         )}
@@ -271,7 +304,7 @@ export default function Portfolio() {
             <SectionCard>
               <h2 className="mb-2 text-2xl font-bold">Contact</h2>
               <p className="text-gray-700">
-                Let's talk about your project, collaboration, or role. I usually reply within 24 hours.
+                Let's discuss your next project or explore how we can collaborate. I'm eager to hear about your vision and will do my best to reply within 24 hours.
               </p>
             </SectionCard>
 
@@ -286,9 +319,25 @@ export default function Portfolio() {
                   </div>
                   <div>
                     <div className="text-sm text-gray-600">Resume</div>
-                    <a href={PROFILE.resumeUrl} className="text-lg font-semibold underline">
+                    <a href="https://drive.google.com/file/d/19x6IBjABtLokotx-LLCrH5Uh5TjYh10B/view?usp=embed_facebook" target="_blank" className="text-lg font-semibold underline">
                       View CV
                     </a>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-600">Connect</div>
+                    <div className="mt-1 flex gap-2">
+                      {PROFILE.socials.map((s) => (
+                        <a
+                          key={s.label}
+                          href={s.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-semibold underline"
+                        >
+                          {s.label}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </SectionCard>

@@ -60,10 +60,10 @@ const PROJECTS = [
     ],
   },
   {
-    title: "eLibrary REST API",
+    title: "LibroServe",
     description:
       "RESTful API for managing books, users, and admins with JWT auth, role-based access, Cloudinary integration, and analytics.",
-    stack: ["Node.js", "Express", "MongoDB", "Cloudinary"],
+    stack: ["Node.js", "Express", "MongoDB", "Cloudinary", "JWT", "Multer"],
     image: "/rest-api.png",
     links: [
       { label: "GitHub", href: "https://github.com/aarohb1507/e-library-api" },
@@ -175,19 +175,19 @@ function ProjectCard({ project, index, observerRef, isVisible }) {
   // Generate problem/solution/impact based on project
   const getProblem = (title) => {
     if (title === "NexusFeed") return "Complex async workflows across multiple services";
-    if (title === "eLibrary REST API") return "Managing multi-tenant book library with role-based access";
+    if (title === "LibroServe") return "Managing multi-tenant book library with role-based access";
     return "Full-cycle task management with real-time updates";
   };
 
   const getSolution = (title) => {
     if (title === "NexusFeed") return "Event-driven microservices with RabbitMQ + Redis caching";
-    if (title === "eLibrary REST API") return "RESTful API with JWT auth + Cloudinary CDN integration";
+    if (title === "LibroServe") return "RESTful API with JWT auth + Cloudinary CDN integration";
     return "Redux state management with Express backend";
   };
 
   const getImpact = (title) => {
     if (title === "NexusFeed") return "5 independent services • <100ms response time";
-    if (title === "eLibrary REST API") return "Role-based access • Analytics-ready • Cloudinary CDN";
+    if (title === "LibroServe") return "Role-based access • Analytics-ready • Cloudinary CDN";
     return "Task tracking • Progress dashboards • Multi-user coordination";
   };
 
